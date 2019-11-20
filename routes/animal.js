@@ -11,22 +11,22 @@ var router = express.Router();
 
 //database
 var MongoDb = require('../mongoDb')
-const personSchema = require('../models/personSchemma')
+const animalSchema = require('../models/animalSchemma');
 
-let persons = new MongoDb(MongoDb.connect(), personSchema);
+let animals = new MongoDb(MongoDb.connect(), animalSchema);
 
-//get all users
+//get all animals
 router.get('/', async function (req, res) {
-   let result = await persons.read({});
+   let result = await animals.read({});
    res.send(result);
 });
 
 //get user by id
 router.get('/:id([0-9]+)', async (req, res) => {
    let gotId = parseInt(req.params.id);
-   let found = await persons.read({ _id: gotId })
-   const curr = found.filter(user => {
-      if (user._id === gotId) {
+   let found = await animals.read({ _id: gotId })
+   const curr = found.filter(animal => {
+      if (animal._id === gotId) {
          return true;
       }
    });
@@ -38,23 +38,21 @@ router.get('/:id([0-9]+)', async (req, res) => {
    }
 });
 
-//post person
+//post animal
 router.post('/', async (req, res) => {
    try {
-
-      //Check if all fields are provided and are valid:
-      // { _id: 1, type: "admin", name: "administer", photo: "", phone: "(16) 99721-2588", email: "admin", password: "admin" },
+      //{ _id: 7, owner: 3, type: "dog", race: "bodercolie", name: "Mr. Picles", photo: "imgsrc", age: new Date(2007,1,1) }
+      
       if (!req.body.type ||
          !req.body.name ||
-         !req.body.password ||
-         !req.body.email ||
-         !req.body.phone) {
+         !req.body.owner ||
+         !req.body.race ||
+         !req.body.age) {
          res.status(400);
          res.json({ message: "Bad Request" });
       } else {
-         let created = await persons.create(req.body);
-         
-         res.send({ message: "New user created.", _id: created._id });
+         let created = await animals.create(req.body);
+         res.send({ message: "New animal inserted.", _id: created._id });
 
       }
    } catch (error) {
@@ -65,23 +63,21 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id([0-9]+)', async (req, res) => {
-   //Check if all fields are provided and are valid:
-   // { _id: 1, type: "admin", name: "administer", photo: "", phone: "(16) 99721-2588", email: "admin", password: "admin" },
    if (!req.body.type ||
       !req.body.name ||
-      !req.body.password ||
-      !req.body.email ||
-      !req.body.phone) {
+      !req.body.owner ||
+      !req.body.race ||
+      !req.body.age) {
 
       res.status(400);
       res.json({ message: "Bad Request" });
    } else {
       let gotId = parseInt(req.params.id);
-      let user = req.body;
-      user._id=gotId;
-      let result = await persons.update(gotId, user);
+      let animal = req.body;
+      animal._id=gotId;
+      let result = await animals.update(gotId, animal);
       if (result.nModified === 1)
-         res.json({ message: "Person updated!" });
+         res.json({ message: "Animal updated!" });
       else {
          res.status(404)
          res.json({ message: "Nothing changed" })
@@ -91,9 +87,9 @@ router.put('/:id([0-9]+)', async (req, res) => {
 
 router.delete('/:id([0-9]+)', async (req, res) => {
    let gotId = parseInt(req.params.id);
-   let result = await persons.delete(gotId);
+   let result = await animals.delete(gotId);
    if (result.n === 1) {
-      res.json({message:"Person removed!"})
+      res.json({message:"Animal removed!"})
    } else {
       res.status(404);//Set status to 404 as movie was not found
       res.json({ message: "Not Found" });

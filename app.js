@@ -9,6 +9,11 @@ var bodyParser = require('body-parser')
 var app = express();
 //routes
 const persons = require('./routes/person')
+const animals = require('./routes/animal')
+const products = require('./routes/product')
+const services = require('./routes/service')
+const carts = require('./routes/cart')
+const schedules = require('./routes/schedule')
 
 
 //set static folder
@@ -26,6 +31,11 @@ app.get('/', function(req, res){
 
 
 app.use("/person",persons);
+app.use("/animal",animals);
+app.use("/product",products);
+app.use("/service",services);
+app.use("/cart",carts);
+app.use("/schedule",schedules);
 
 app.listen(8081);
 

@@ -26,8 +26,8 @@ class MongoDB {
     }
     // 1o 
     static async connect() {
-        await Mongoose.connect('mongodb://localhost:27017/petshop', { 
-            family:4,//ou remove isso e troca localhost por 127.0.0.1 ou adiciona isso no hosts
+        await Mongoose.connect('mongodb://localhost:27017/petshop', {
+            family: 4,//ou remove isso e troca localhost por 127.0.0.1 ou adiciona isso no hosts
             useNewUrlParser: true
         }, function (error) {
             if (!error) return;
@@ -35,11 +35,8 @@ class MongoDB {
         })
         const connection = Mongoose.connection
         connection.on('error', console.error.bind(console, 'Error connecting to DB'));
-        connection.once('open', () => {
-            console.log('Connected to new_demo db');
-            done();
-        });
-        //connection.once('open', () => console.log('connection open!'))
+
+        connection.once('open', () => console.log('connection open!'))
 
         return connection;
     }
@@ -80,21 +77,21 @@ class MongoDB {
     }
 
     async create(item) {
-        try{
+        try {
 
             const gotId = await this.lastId();
-    let nextId = 0
+            let nextId = 0
             if (gotId) {
                 nextId = gotId._id;
             }
             else nextId = await this.checkFistUsage();
-            
             nextId++
             item._id = nextId;
 
             return this._schema.create(item);
         }
-        catch(error){
+        catch (error) {
+            console.log('Error: ', error)
         }
     }
 

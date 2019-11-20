@@ -3,7 +3,7 @@
     3672382 - Richard Carvalho Calderan
     958350- Jonatan Ricardo Catai
 
-    define persons routes
+    define product routes
  */
 
 var express = require('express');
@@ -11,22 +11,22 @@ var router = express.Router();
 
 //database
 var MongoDb = require('../mongoDb')
-const personSchema = require('../models/personSchemma')
+const productSchema = require('../models/productSchemma');
 
-let persons = new MongoDb(MongoDb.connect(), personSchema);
+let products = new MongoDb(MongoDb.connect(), productSchema);
 
-//get all users
+//get all product
 router.get('/', async function (req, res) {
-   let result = await persons.read({});
+   let result = await products.read({});
    res.send(result);
 });
 
-//get user by id
+//get product by id
 router.get('/:id([0-9]+)', async (req, res) => {
    let gotId = parseInt(req.params.id);
-   let found = await persons.read({ _id: gotId })
-   const curr = found.filter(user => {
-      if (user._id === gotId) {
+   let found = await products.read({ _id: gotId })
+   const curr = found.filter(product => {
+      if (product._id === gotId) {
          return true;
       }
    });
@@ -38,23 +38,21 @@ router.get('/:id([0-9]+)', async (req, res) => {
    }
 });
 
-//post person
+//post product
 router.post('/', async (req, res) => {
    try {
-
-      //Check if all fields are provided and are valid:
-      // { _id: 1, type: "admin", name: "administer", photo: "", phone: "(16) 99721-2588", email: "admin", password: "admin" },
-      if (!req.body.type ||
+      //{_id:2,name:"Tapete Higienico",description:"Tapete mega higienico",photo:"/assets/tapete_higienico_lavavel_1.jpg",price:20.0,stock:18,sold:2},
+      if (
          !req.body.name ||
-         !req.body.password ||
-         !req.body.email ||
-         !req.body.phone) {
+         !req.body.description ||
+         !req.body.price ||
+         !req.body.sold ||
+         !req.body.stock) {
          res.status(400);
          res.json({ message: "Bad Request" });
       } else {
-         let created = await persons.create(req.body);
-         
-         res.send({ message: "New user created.", _id: created._id });
+         let created = await products.create(req.body);
+         res.send({ message: "New product inserted.", _id: created._id });
 
       }
    } catch (error) {
@@ -65,23 +63,22 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id([0-9]+)', async (req, res) => {
-   //Check if all fields are provided and are valid:
-   // { _id: 1, type: "admin", name: "administer", photo: "", phone: "(16) 99721-2588", email: "admin", password: "admin" },
-   if (!req.body.type ||
+   if (
       !req.body.name ||
-      !req.body.password ||
-      !req.body.email ||
-      !req.body.phone) {
+      !req.body.description ||
+      !req.body.price ||
+      !req.body.sold ||
+      !req.body.stock) {
 
       res.status(400);
       res.json({ message: "Bad Request" });
    } else {
       let gotId = parseInt(req.params.id);
-      let user = req.body;
-      user._id=gotId;
-      let result = await persons.update(gotId, user);
+      let product = req.body;
+      product._id=gotId;
+      let result = await products.update(gotId, product);
       if (result.nModified === 1)
-         res.json({ message: "Person updated!" });
+         res.json({ message: "Product updated!" });
       else {
          res.status(404)
          res.json({ message: "Nothing changed" })
@@ -91,9 +88,9 @@ router.put('/:id([0-9]+)', async (req, res) => {
 
 router.delete('/:id([0-9]+)', async (req, res) => {
    let gotId = parseInt(req.params.id);
-   let result = await persons.delete(gotId);
+   let result = await products.delete(gotId);
    if (result.n === 1) {
-      res.json({message:"Person removed!"})
+      res.json({message:"Product removed!"})
    } else {
       res.status(404);//Set status to 404 as movie was not found
       res.json({ message: "Not Found" });
