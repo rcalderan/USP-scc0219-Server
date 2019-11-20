@@ -7,7 +7,7 @@ const STATUS = {
     2: 'Conectando',
     3: 'Disconectando',
 }
-class MongoDB{
+class MongoDB {
     constructor(connection, schema) {
         // 4o
         this._connection = connection;
@@ -20,20 +20,27 @@ class MongoDB{
 
         if (state !== 'Conectando') return state
 
-        await new Promise(resolve => setTimeout(resolve, 1900))
+        //await new Promise(resolve => setTimeout(resolve, 4999))
 
         return STATUS[this._connection.readyState]
     }
     // 1o 
-    static connect() {
-        Mongoose.connect('mongodb://localhost:27017/petshop', {
+    static async connect() {
+        await Mongoose.connect('mongodb://localhost:27017/petshop', { 
+            family:4,//ou remove isso e troca localhost por 127.0.0.1 ou adiciona isso no hosts
             useNewUrlParser: true
         }, function (error) {
             if (!error) return;
             console.log('Falha na conexão!', error)
         })
         const connection = Mongoose.connection
-        connection.once('open', () => console.log('connection open!'))
+        connection.on('error', console.error.bind(console, 'Error connecting to DB'));
+        connection.once('open', () => {
+            console.log('Connected to new_demo db');
+            done();
+        });
+        //connection.once('open', () => console.log('connection open!'))
+
         return connection;
     }
 
@@ -73,15 +80,22 @@ class MongoDB{
     }
 
     async create(item) {
-        const gotId = await this.lastId();
-        let nextId = 0
-        if (gotId) {
-            nextId = gotId._id
+        try{
+
+            const gotId = await this.lastId();
+    let nextId = 0
+            if (gotId) {
+                nextId = gotId._id;
+            }
+            else nextId = await this.checkFistUsage();
+            
+            nextId++
+            item._id = nextId;
+
+            return this._schema.create(item);
         }
-        else nextId = await this.checkFistUsage()
-        nextId++
-        item._id = nextId
-        return this._schema.create(item)
+        catch(error){
+        }
     }
 
     async read(item, skip = 0, limit = 100) {

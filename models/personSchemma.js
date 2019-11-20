@@ -26,7 +26,7 @@ const personSchema = new mongoose.Schema({
     },
     photo: {
         type: String,
-        required: true
+        default:''
     },
     phone:  {
         type: String,
