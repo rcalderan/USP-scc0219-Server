@@ -14,6 +14,7 @@ const products = require('./routes/product')
 const services = require('./routes/service')
 const carts = require('./routes/cart')
 const schedules = require('./routes/schedule')
+const finance = require('./routes/finance')
 
 
 //set static folder
@@ -28,14 +29,19 @@ app.use(bodyParser.json())
 app.get('/', function(req, res){
    res.send("Hello world!");
 });
+//test
+app.get('/api', function(req, res){
+   res.send("API!!!");
+});
 
-
-app.use("/person",persons);
-app.use("/animal",animals);
-app.use("/product",products);
-app.use("/service",services);
-app.use("/cart",carts);
-app.use("/schedule",schedules);
+//adicionado o prefixo /api nas rotas para dar match no proxy do vue
+app.use("/api/person",persons);
+app.use("/api/animal",animals);
+app.use("/api/product",products);
+app.use("/api/service",services);
+app.use("/api/cart",carts);
+app.use("/api/schedule",schedules);
+app.use("/api/finance",finance);
 
 app.listen(8081);
 

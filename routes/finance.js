@@ -13,18 +13,18 @@ var router = express.Router();
 var MongoDb = require('../mongoDb')
 const financeSchema = require('../models/financeSchemma');
 
-let finance = new MongoDb(MongoDb.connect(), financeSchema);
+let finances = new MongoDb(MongoDb.connect(), financeSchema);
 
 //get all finance
 router.get('/', async function (req, res) {
-   let result = await finance.read({});
+   let result = await finances.read({});
    res.send(result);
 });
 
 //get finance by id
 router.get('/:id([0-9]+)', async (req, res) => {
    let gotId = parseInt(req.params.id);
-   let found = await finance.read({ _id: gotId })
+   let found = await finances.read({ _id: gotId })
    const curr = found.filter(finance => {
       if (finance._id === gotId) {
          return true;
@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
          res.status(400);
          res.json({ message: "Bad Request" });
       } else {
-         let created = await finance.create(req.body);
+         let created = await finances.create(req.body);
          res.send({ message: "New finance inserted.", _id: created._id });
 
       }
@@ -62,31 +62,36 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id([0-9]+)', async (req, res) => {
-   
-   if (!req.body.customer ||
-      !req.body.type ||
-      !req.body.date ||
-      !req.body.value ) {
+   try{
 
-      res.status(400);
-      res.json({ message: "Bad Request" });
-   } else {
-      let gotId = parseInt(req.params.id);
-      let finance = req.body;
-      finance._id=gotId;
-      let result = await finance.update(gotId, finance);
-      if (result.nModified === 1)
-         res.json({ message: "Finance updated!" });
-      else {
-         res.status(404)
-         res.json({ message: "Nothing changed" })
+      if (!req.body.customer ||
+         !req.body.type ||
+         !req.body.date ||
+         !req.body.value ) {
+   
+         res.status(400);
+         res.json({ message: "Bad Request" });
+      } else {
+         let gotId = parseInt(req.params.id);
+         let finance = req.body;
+         finance._id=gotId;
+         let result = await finances.update(gotId, finance);
+         if (result.nModified === 1)
+            res.json({ message: "Finance updated!" });
+         else {
+            res.status(404)
+            res.json({ message: "Nothing changed" })
+         }
       }
+   }catch(error){
+      res.status(404)
+      res.json({ message: e.message })
    }
 });
 
 router.delete('/:id([0-9]+)', async (req, res) => {
    let gotId = parseInt(req.params.id);
-   let result = await finance.delete(gotId);
+   let result = await finances.delete(gotId);
    if (result.n === 1) {
       res.json({message:"Finance removed!"})
    } else {
