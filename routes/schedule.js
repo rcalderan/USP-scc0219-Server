@@ -18,6 +18,8 @@ let schedules = new MongoDb(MongoDb.connect(), scheduleSchema);
 //get all schedule
 router.get('/', async function (req, res) {
    let result = await schedules.read({});
+   if(result[0]._id===0)
+      result.splice(0,1)
    res.send(result);
 });
 

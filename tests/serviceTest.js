@@ -2,7 +2,7 @@ const assert = require('assert').strict
 const app = require('../app')
 const axios = require('axios');
 
-let baseUrl ="http://localhost:8081";
+let baseUrl ="http://localhost:8081/api";
 let lastId=0;
 
 describe('Test services routes', function () {

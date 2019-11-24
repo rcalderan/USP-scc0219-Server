@@ -1,4 +1,5 @@
 const personDefaultDocument = [
+    {_id:0,type:"customer",name:"unknown",adress: "unknown",photo:"",phone:"some",email:"unknown",password: "noned"},
     {
         _id: 1, 
         type: "admin", 

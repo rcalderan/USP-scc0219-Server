@@ -18,6 +18,9 @@ let finances = new MongoDb(MongoDb.connect(), financeSchema);
 //get all finance
 router.get('/', async function (req, res) {
    let result = await finances.read({});
+   
+   if(result[0]._id===0)
+      result.splice(0,1)
    res.send(result);
 });
 

@@ -18,6 +18,8 @@ let persons = new MongoDb(MongoDb.connect(), personSchema);
 //get all users
 router.get('/', async function (req, res) {
    let result = await persons.read({});
+   if(result[0]._id===0)
+      result.splice(0,1)
    res.send(result);
 });
 
@@ -50,6 +52,8 @@ router.post('/', async (req, res) => {
          !req.body.email ||
          !req.body.phone) {
          res.status(400);
+         console.log(JSON.stringify(req.body))
+         console.log('Bad request')
          res.json({ message: "Bad Request" });
       } else {
          let created = await persons.create(req.body);
@@ -58,6 +62,7 @@ router.post('/', async (req, res) => {
 
       }
    } catch (error) {
+      console.log(error.message)
       res.status(400);
       res.json({ message: "error: " + error });
 

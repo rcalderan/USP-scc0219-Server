@@ -1,4 +1,5 @@
 const serviceDefaultDocument = [
+    {_id:0,name:"None",description:"nothing",price:0},
     {_id:1,name:"Consulta",description:"Consulta veterinária para seu pet e pra você...",price:120.0},
     {_id:2,name:"Grooming",description:"Tosa para seu bixinho! ele vai ficar fofo",price:60.0},
     {_id:3,name:"Vacina",description:"Vacine seu animal!!!!",price:150.0},

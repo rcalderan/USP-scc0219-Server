@@ -18,6 +18,8 @@ let carts = new MongoDb(MongoDb.connect(), cartSchema);
 //get all carts
 router.get('/', async function (req, res) {
    let result = await carts.read({});
+   if(result[0]._id===0)
+      result.splice(0,1)
    res.send(result);
 });
 
@@ -88,6 +90,7 @@ router.delete('/:id([0-9]+)', async (req, res) => {
    let gotId = parseInt(req.params.id);
    let result = await carts.delete(gotId);
    if (result.n === 1) {
+      console.log(result.data)
       res.json({message:"Cart removed!"})
    } else {
       res.status(404);//Set status to 404 as movie was not found

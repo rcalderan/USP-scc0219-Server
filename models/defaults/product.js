@@ -1,4 +1,5 @@
 const productDefaultDocument = [
+    {_id:0,name:"unknown",description:"none",photo:"none",price:0,stock:0,sold:0},
     {_id:1,
         name:"Arranhador",
         description:"Arranhador toca",

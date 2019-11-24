@@ -18,6 +18,10 @@ let products = new MongoDb(MongoDb.connect(), productSchema);
 //get all product
 router.get('/', async function (req, res) {
    let result = await products.read({});
+   
+   if(result[0]._id===0)
+      result.splice(0,1)
+   console.log(`readed ${result.length} person(s)`)
    res.send(result);
 });
 

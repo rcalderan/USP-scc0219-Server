@@ -2,18 +2,9 @@ const assert = require('assert').strict
 const app = require('../app')
 const axios = require('axios');
 
-let baseUrl ="http://localhost:8081";
+let baseUrl ="http://localhost:8081/api";
 let lastId=0;
 
-describe('Testar app', function () {
-    it('test root "/"', async function () {
-        let req = await axios.get(baseUrl);
-        if(req.length>0)
-            lastId = req[req.length-1]._id;
-        assert.ok(req.status===200)
-        
-    })
-})
 
 describe('Test persons routes', function () {
     this.beforeAll(() => {

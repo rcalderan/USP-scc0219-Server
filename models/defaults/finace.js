@@ -1,4 +1,5 @@
 const financeDefaultDocument = [//finanças aqui
+    {_id:0,customer:0,type:"none",date:new Date(),value:0},
     {_id:1,customer:2,type:"service",date:new Date(2019,5,5,12,30),value:120.0},
     {_id:2,customer:5,type:"product",date:new Date(2019,5,15,12,30),value:120.0},
     {_id:3,customer:7,type:"service",date:new Date(2019,5,21,12,30),value:150.0},

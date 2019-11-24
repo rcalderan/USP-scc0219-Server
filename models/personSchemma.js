@@ -22,7 +22,7 @@ const personSchema = new mongoose.Schema({
     },
     adress: {
         type: String,
-        required: true
+        default:''
     },
     photo: {
         type: String,

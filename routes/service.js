@@ -18,6 +18,8 @@ let services = new MongoDb(MongoDb.connect(), serviceSchema);
 //get all service
 router.get('/', async function (req, res) {
    let result = await services.read({});
+   if(result[0]._id===0)
+      result.splice(0,1)
    res.send(result);
 });
 

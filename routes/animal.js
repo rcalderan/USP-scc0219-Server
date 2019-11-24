@@ -18,6 +18,9 @@ let animals = new MongoDb(MongoDb.connect(), animalSchema);
 //get all animals
 router.get('/', async function (req, res) {
    let result = await animals.read({});
+   
+   if(result[0]._id===0)
+      result.splice(0,1)
    res.send(result);
 });
 

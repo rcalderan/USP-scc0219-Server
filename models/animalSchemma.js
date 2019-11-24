@@ -33,7 +33,7 @@ const animalSchema = new mongoose.Schema({
         required: true
     },
     age:  {
-        type: Date,
+        type: Number,
         required: true
     },
 },schemaOptions);
