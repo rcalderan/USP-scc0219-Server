@@ -104,12 +104,17 @@ class MongoDB {
 
 
     async update(id, item) {
-        return this._schema.updateOne({
-            _id: id
+        try {
+
+            return this._schema.updateOne({
+                _id: id
+            }
+                , {
+                    $set: item
+                })
+        } catch(error){
+            console.log(error.message)
         }
-            , {
-                $set: item
-            })
     }
 
     async delete(id) {
