@@ -44,18 +44,9 @@ router.get('/:id([0-9]+)', async (req, res) => {
 router.post('/', async (req, res) => {
    try {
       //{ _id: 5, owner: 7, product:1, description: "Arranhador",count:2, value: 120.99 }
-      if (
-         !req.body.owner ||
-         !req.body.description ||
-         !req.body.product ||
-         !req.body.value) {
-         res.status(400);
-         res.json({ message: "Bad Request" });
-      } else {
-         let created = await carts.create(req.body);
-         res.send({ message: "New cart inserted.", _id: created._id });
-
-      }
+      
+      let created = await carts.create(req.body);
+      res.send({ message: "New cart inserted.", _id: created._id });
    } catch (error) {
       res.status(400);
       res.json({ message: "error: " + error });

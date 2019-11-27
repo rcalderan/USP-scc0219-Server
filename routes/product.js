@@ -49,10 +49,9 @@ router.post('/', async (req, res) => {
       if (
          !req.body.name ||
          !req.body.description ||
-         !req.body.price ||
-         !req.body.sold ||
-         !req.body.stock) {
+         !req.body.price) {
          res.status(400);
+         console.log('Bad Request')
          res.json({ message: "Bad Request" });
       } else {
          let created = await products.create(req.body);
@@ -60,7 +59,8 @@ router.post('/', async (req, res) => {
 
       }
    } catch (error) {
-      res.status(400);
+      console.log(error.message)
+      res.status(500);
       res.json({ message: "error: " + error });
 
    }
