@@ -40,6 +40,23 @@ router.get('/:id([0-9]+)', async (req, res) => {
    }
 });
 
+//get all shedule from owner
+router.get('/owner/:id([0-9]+)', async (req, res) => {
+   let gotId = parseInt(req.params.id);
+   let found = await schedules.read({})
+   const curr = found.filter(schedule => {
+      if (schedule.owner === gotId) {
+         return true;
+      }
+   });
+   if (curr.length !=0) {
+      res.json(curr)
+   } else {
+      res.status(404);//Set status to 404 as movie was not found
+      res.json({ message: "Not Found" });
+   }
+});
+
 //post schedule
 router.post('/', async (req, res) => {
    try {

@@ -49,6 +49,7 @@ router.post('/', async (req, res) => {
       res.send({ message: "New cart inserted.", _id: created._id });
    } catch (error) {
       res.status(400);
+      console.log(error)
       res.json({ message: "error: " + error });
 
    }
@@ -80,6 +81,7 @@ router.put('/:id([0-9]+)', async (req, res) => {
 router.delete('/:id([0-9]+)', async (req, res) => {
    let gotId = parseInt(req.params.id);
    let result = await carts.delete(gotId);
+   console.log(gotId)
    if (result.n === 1) {
       console.log(result.data)
       res.json({message:"Cart removed!"})
