@@ -16,8 +16,16 @@ const animalSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    animal: {
+        type: Number,
+        required: true
+    },
     service:{
         type:String,
+        required:true
+    },
+    price:{
+        type:Number,
         required:true
     },
     description: {
@@ -29,9 +37,9 @@ const animalSchema = new mongoose.Schema({
         required: true
     },
 },schemaOptions);
-//{ _id: 3, owner: 7,  service:"Grooming", description: "take Pipoca", date: new Date(2019, 11, 2, 19, 20, 0, 0) }
+//{ _id: 3, owner: 7, animal:1, service:"Grooming", price:120,description: "take Pipoca", date: new Date(2019, 11, 2, 19, 20, 0, 0) }
 animalSchema.methods.collumns = function () {
-    return {_id:1, owner: 1, service: 1,description:1,date:1}
+    return {_id:1, owner: 1, animal:1,price:1,service: 1,description:1,date:1}
 }
 
 animalSchema.statics.GetDefaultValues = function(){

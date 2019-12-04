@@ -11,7 +11,7 @@ describe('Test products routes', function () {
     })
     
     it('POST schedule: /schedule', async function () {
-        var newSchedule = {owner: 7,  service:"Grooming", description: "take Pipoca", date: new Date(2019, 11, 2, 19, 20, 0, 0) };
+        var newSchedule = {owner: 7, animal:2, service:"Grooming",price:120, description: "take Pipoca", date: new Date(2019, 11, 2, 19, 20, 0, 0) };
         let response = await axios.post(baseUrl,newSchedule);
         assert.deepEqual(response.data.message,"New schedule inserted.")
         if(response.data._id>0){

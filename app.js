@@ -16,6 +16,7 @@ const carts = require('./routes/cart')
 const schedules = require('./routes/schedule')
 const finance = require('./routes/finance')
 
+const image = require('./routes/image')
 
 //set static folder
 app.use(express.static('public'));
@@ -42,6 +43,7 @@ app.use("/api/service",services);
 app.use("/api/cart",carts);
 app.use("/api/schedule",schedules);
 app.use("/api/finance",finance);
+app.use("/api/image",image);
 
 app.listen(8081);
 

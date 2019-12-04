@@ -60,10 +60,12 @@ router.get('/owner/:id([0-9]+)', async (req, res) => {
 //post schedule
 router.post('/', async (req, res) => {
    try {
-      //{ _id: 3, owner: 7,  service:"Grooming", description: "take Pipoca", date: new Date(2019, 11, 2, 19, 20, 0, 0) }
+      //{ _id: 3, owner: 7, animal:2,  service:"Grooming", price:120, description: "take Pipoca", date: new Date(2019, 11, 2, 19, 20, 0, 0) }
       if (
          !req.body.owner ||
          !req.body.service ||
+         !req.body.animal ||
+         !req.body.price ||
          !req.body.description ||
          !req.body.date) {
          res.status(400);
@@ -84,6 +86,8 @@ router.put('/:id([0-9]+)', async (req, res) => {
    if (
       !req.body.owner ||
       !req.body.service ||
+      !req.body.animal ||
+      !req.body.price ||
       !req.body.description ||
       !req.body.date) {
 
