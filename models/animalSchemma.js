@@ -25,8 +25,8 @@ const animalSchema = new mongoose.Schema({
         required: true
     },
     photo: {
-        type: String,
-        default:""
+        type: Number,
+        default:1
     },
     race:  {
         type: String,

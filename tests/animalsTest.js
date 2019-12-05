@@ -12,7 +12,7 @@ describe('Test animals routes', function () {
     
     it('POST animals: /animal', async function () {
         var newAnimal = 
-        { owner: 3, type: "dog", race: "bodercolie", name: "Mr. Picles 2", photo: "imgsrc", age: 3 }
+        { owner: 3, type: "dog", race: "bodercolie", name: "Mr. Picles 2", age: 3 }
         let response = await axios.post(baseUrl,newAnimal);
         assert.deepEqual(response.data.message,"New animal inserted.")
         if(response.data._id>0){

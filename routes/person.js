@@ -52,7 +52,6 @@ router.post('/', async (req, res) => {
          !req.body.email ||
          !req.body.phone) {
          res.status(400);
-         console.log(JSON.stringify(req.body))
          console.log('Bad request')
          res.json({ message: "Bad Request" });
       } else {
@@ -73,7 +72,6 @@ router.put('/:id([0-9]+)', async (req, res) => {
    //Check if all fields are provided and are valid:
    // { _id: 1, type: "admin", name: "administer", photo: "", phone: "(16) 99721-2588", email: "admin", password: "admin" },
    
-   console.log(JSON.stringify(req.body))
    if (!req.body.type ||
       !req.body.name ||
       !req.body.password ||
