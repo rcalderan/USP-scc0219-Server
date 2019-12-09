@@ -77,7 +77,7 @@ router.put('/:id([0-9]+)', async (req, res) => {
       if (result.nModified === 1)
          res.json({ message: "Service updated!" });
       else {
-         res.status(404)
+         res.status(304)
          res.json({ message: "Nothing changed" })
       }
    }
